@@ -1,18 +1,32 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <h2>Družinsko drevo Kolmanov</h2>
+  <FamilyTree :treeData="treeData" />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import HelloWorld from "./components/HelloWorld.vue";
+import FamilyTree from "./components/FamilyTree.vue";
+import { fetchAndDecryptFamily } from "@/lib/crypt";
+import { formatFamily, FamilyTreeData } from "@/lib/formatTree";
 
 @Options({
   components: {
-    HelloWorld,
+    FamilyTree,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  treeData: FamilyTreeData | null = null;
+  async mounted() {
+    const url = new URL(location.href);
+    const pwd = url.searchParams.get("pwd") || undefined;
+    try {
+      const family = await fetchAndDecryptFamily("/kolman.pb.aes", pwd);
+      this.treeData = formatFamily(family);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
 </script>
 
 <style lang="scss">

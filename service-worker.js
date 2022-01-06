@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.734c581769d5450f4ed635ec416f6126.js"
+  "/precache-manifest.94bde650ebf5e5cc6f855df07d0ee9dd.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "family-tree"});
